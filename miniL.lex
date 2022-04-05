@@ -10,6 +10,9 @@
 
 %%
    /* specific lexer rules in regex */
+
+"\n"                 {currLine++; currPos = 1;}
+
 "function"           {printf("FUNCTION\n"); currPos += yyleng;}
 "beginparams"        {printf("BEGIN_PARAMS\n"); currPos += yyleng;}
 "endparams"          {printf("END_PARAMS\n"); currPos += yyleng;}
@@ -39,6 +42,19 @@
 "true"               {printf("TRUE\n"); currPos += yyleng;}
 "false"              {printf("FALSE\n"); currPos += yyleng;}
 "return"             {printf("RETURN\n"); currPos += yyleng;}
+
+"-"                  {printf("SUB\n"); currPos += yyleng;}
+"+"                  {printf("ADD\n"); currPos += yyleng;}
+"*"                  {printf("MULT\n"); currPos += yyleng;}
+"/"                  {printf("DIV\n"); currPos += yyleng;}
+"%"                  {printf("MOD\n"); currPos += yyleng;}
+
+"=="                 {printf("EQ\n"); currPos += yyleng;}
+"<>"                 {printf("NEQ\n"); currPos += yyleng;}
+"<"                  {printf("LT\n"); currPos += yyleng;}
+">"                  {printf("GT\n"); currPos += yyleng;}
+"<="                 {printf("LTE\n"); currPos += yyleng;}
+">="                 {printf("GTE\n"); currPos += yyleng;}
 
 
 %%
