@@ -9,9 +9,10 @@
 
    /* some common rules */
 NUMBER                        [0-9]+
-IDENT                         [A-Za-z][A-Za-z0-9_]*[A-Za-z0-9]|[A-Za-z]
-IDENT_ERROR_ENDS_UNDERSCORE   [A-Za-z][A-Za-z0-9_]*[_]
+IDENT                         [A-Za-z_][A-Za-z0-9_]*[A-Za-z0-9]|[A-Za-z]
+IDENT_ERROR_ENDS_UNDERSCORE   [A-Za-z_][A-Za-z0-9_]*[_]
 IDENT_ERROR_STARTS_NUMBER     [0-9][A-Za-z0-9_]*[A-Za-z0-9]
+IDENT_ERROR                   [0-9][A-Za-z0-9_]*[_]
 COMMENT                       ##[^\n]*
 
 
