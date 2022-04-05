@@ -7,11 +7,18 @@
 %}
 
    /* some common rules */
+NUMBER                        [0-9]+
+IDENT                         [A-Za-z][A-Za-z0-9_]*[A-Za-z0-9]|[A-Za-z]
+IDENT_ERROR_ENDS_UNDERSCORE   [A-Za-z][A-Za-z0-9_]*[_]
+IDENT_ERROR_STARTS_NUMBER     [0-9][A-Za-z0-9_]*[A-Za-z0-9]
+COMMENT                       ##[^\n]*
+
 
 %%
    /* specific lexer rules in regex */
 
 "\n"                 {currLine++; currPos = 1;}
+[ \t]+               {/*ignore spaces*/ currPos += yyleng;}
 
 "function"           {printf("FUNCTION\n"); currPos += yyleng;}
 "beginparams"        {printf("BEGIN_PARAMS\n"); currPos += yyleng;}
@@ -64,6 +71,16 @@
 "["                  {printf("L_SQUARE_BRACKET\n"); currPos += yyleng;}
 "]"                  {printf("R_SQUARE_BRACKET\n"); currPos += yyleng;}
 ":="                 {printf("ASSIGN\n"); currPos += yyleng;}
+
+{COMMENT}                     {currPos += yyleng;}
+
+{NUMBER}                      {printf("NUMBER %s\n", yytext); currPos += yyleng;}
+
+{IDENT}                       {printf("IDENT %s\n", yytext); currPos += yyleng;}
+
+{IDENT_ERROR_ENDS_UNDERSCORE} {printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", currLine, currPos, yytext); currPos += yyleng;}
+{IDENT_ERROR_STARTS_NUMBER}   {printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter\n", currLine, currPos, yytext); currPos += yyleng;}
+.                             {printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); currPos += yyleng;}
 
 
 
