@@ -2149,6 +2149,13 @@ int main(int argc, char ** argv)
       yyin = stdin;
    }
    yylex();
-   printf("The program exited with %d errors", errorNum);
+   if(errorNum == 0)
+   {
+      printf("\n\nThe program compiled successfully.\n");
+   }
+   else
+   {
+      printf("\n\nThe program failed to compile with %d errors.\n", errorNum);
+   }
 }
 
