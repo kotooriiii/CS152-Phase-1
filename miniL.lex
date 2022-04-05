@@ -4,6 +4,7 @@
    /* write your C code here for definitions of variables and including headers */
    int currLine = 1;
    int currPos = 1;
+   int errorNum = 0;
 %}
 
    /* some common rules */
@@ -78,9 +79,9 @@ COMMENT                       ##[^\n]*
 
 {IDENT}                       {printf("IDENT %s\n", yytext); currPos += yyleng;}
 
-{IDENT_ERROR_ENDS_UNDERSCORE} {printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", currLine, currPos, yytext); currPos += yyleng;}
-{IDENT_ERROR_STARTS_NUMBER}   {printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter\n", currLine, currPos, yytext); currPos += yyleng;}
-.                             {printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); currPos += yyleng;}
+{IDENT_ERROR_ENDS_UNDERSCORE} {printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", currLine, currPos, yytext); errorNum++; currPos += yyleng;}
+{IDENT_ERROR_STARTS_NUMBER}   {printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter\n", currLine, currPos, yytext); errorNum++; currPos += yyleng;}
+.                             {printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); errorNum++; currPos += yyleng;}
 
 
 
@@ -102,4 +103,5 @@ int main(int argc, char ** argv)
       yyin = stdin;
    }
    yylex();
+   printf("The program exited with %d errors.\n", errorNum);
 }
