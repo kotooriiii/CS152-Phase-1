@@ -12,7 +12,7 @@ NUMBER                        [0-9]+
 IDENT                         [A-Za-z_][A-Za-z0-9_]*[A-Za-z0-9]|[A-Za-z]
 IDENT_ERROR_ENDS_UNDERSCORE   [A-Za-z_][A-Za-z0-9_]*[_]
 IDENT_ERROR_STARTS_NUMBER     [0-9][A-Za-z0-9_]*[A-Za-z0-9]
-IDENT_ERROR                   [0-9][A-Za-z0-9_]*[_]
+IDENT_ERROR_ANY               [0-9][A-Za-z0-9_]*[_]
 COMMENT                       ##[^\n]*
 
 
@@ -82,6 +82,7 @@ COMMENT                       ##[^\n]*
 
 {IDENT_ERROR_ENDS_UNDERSCORE} {printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", currLine, currPos, yytext); errorNum++; currPos += yyleng;}
 {IDENT_ERROR_STARTS_NUMBER}   {printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter\n", currLine, currPos, yytext); errorNum++; currPos += yyleng;}
+{IDENT_ERROR_ANY}             {printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter and not end with an underscore\n", currLine, currPos, yytext); errorNum++; currPos += yyleng;}
 .                             {printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); errorNum++; currPos += yyleng;}
 
 
